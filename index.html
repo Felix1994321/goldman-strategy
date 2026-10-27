@@ -140,11 +140,19 @@ html{scroll-padding-top:80px}body{overflow-x:hidden}button,a,select{ -webkit-tap
 .spotlight-footnote{margin-top:8px;margin-bottom:0}.scope-inline-label{font-size:12px;vertical-align:middle;color:#f1c67e;border:1px solid #645538;background:#302918;border-radius:999px;padding:5px 9px;font-weight:600;white-space:nowrap}
 @media(max-width:850px){.scope-switch{align-items:stretch;flex-direction:column}.scope-switch-buttons{width:100%}.scope-switch-buttons .btn{flex:1;min-width:0}.spotlight-head{align-items:flex-start}.direct-spotlight{padding:14px 12px 10px}}
 @media(max-width:650px){.scope-switch-buttons .btn{font-size:11px;padding:11px 8px}.spotlight-head h3{font-size:16px}.spotlight-total{min-width:84px;padding:8px}.spotlight-total strong{font-size:28px}.spotlight-total span{font-size:10px}.direct-period-kpi{padding:11px 10px}.direct-down strong{font-size:25px}.direct-down small{margin-left:0}.direct-average{font-size:22px}.direct-conditional{font-size:10px}.scope-inline-label{display:inline-block;margin-top:4px}}
+
+/* Public visit counter: total unique visitors to this GitHub Pages host. */
+header.visit-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.visitor-count{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid #394d65;border-radius:9px;background:#172439;color:#aebfd4;font-size:12px;white-space:nowrap}
+.visitor-count strong{color:#eaf0f8;font-weight:750;font-size:15px;font-variant-numeric:tabular-nums}
+@media(max-width:650px){header.visit-header{gap:9px}.visitor-count{font-size:11px;padding:6px 9px}.visitor-count strong{font-size:13px}}
 </style>
+
+<script defer src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js"></script>
 </head>
 <body>
 <div class="wrap">
-<header><h1>金本位元帅历史策略审计（自20251001）</h1></header>
+<header class="visit-header"><h1>金本位元帅历史策略审计（自20251001）</h1><div class="visitor-count" aria-label="累计独立访客数">累计访客 <strong id="busuanzi_site_uv">—</strong> 人</div></header>
 <nav class="nav" aria-label="页面导航"><a href="#overview" class="active"><span class="nav-desktop">数据总览</span><span class="nav-mobile">总览</span></a><a href="#strategies"><span class="nav-desktop">策略分析</span><span class="nav-mobile">分析</span></a><a href="#records"><span class="nav-desktop">完整数据表</span><span class="nav-mobile">数据表</span></a><a href="comments.html" class="nav-discuss"><span class="nav-desktop">留言广场</span><span class="nav-mobile">留言</span></a><button type="button" id="nav-symbols" aria-label="打开标的目录" aria-expanded="false"><span class="nav-desktop">标的导航</span><span class="nav-mobile">标的</span></button><button type="button" id="nav-settings" aria-label="跳转K线设置"><span class="nav-desktop">K线设置</span><span class="nav-mobile">设置</span></button></nav>
 <div class="audit-layout">
 <aside id="symbol-sidebar" class="symbol-sidebar" aria-label="标的快捷导航">
