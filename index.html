@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090f19">
+<title>金本位元帅历史策略审计（自20251001）</title>
+<style>
+:root{color-scheme:dark;--bg:#090f19;--surface:#121b2a;--surface2:#182335;--line:#29364a;--text:#eaf0f8;--sub:#9aaac1;--muted:#7385a0;--red:#ff6578;--green:#29d3a3;--blue:#67b8ff;--gold:#ffc76b;font-family:Inter,"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text)}.wrap{max-width:1540px;margin:0 auto;padding:0 24px 70px}header{border-bottom:1px solid var(--line);padding:30px 0 24px}header h1{font-size:clamp(21px,2.1vw,31px);letter-spacing:.1px;font-weight:760;margin:0}.nav{position:sticky;top:0;z-index:25;background:rgba(9,15,25,.97);border-bottom:1px solid var(--line);display:flex;gap:8px;padding:13px 0}.nav a{color:#cad5e6;text-decoration:none;padding:10px 18px;border-radius:9px;font-size:14px;background:#162234}.nav a:hover,.nav a:focus-visible{background:#29435e}section[id]{scroll-margin-top:85px}h2{font-size:20px;letter-spacing:.1px;margin:34px 0 17px;font-weight:750}h3{font-size:15px;margin:0 0 15px}p{margin:0}.subtle,.note{color:var(--sub);font-size:12px;line-height:1.8}.note{margin-top:12px}.small{font-size:12px}.muted{color:var(--muted)}.up{color:var(--green)}.down{color:var(--red)}.panel,.kpi{border:1px solid var(--line);background:var(--surface);border-radius:14px}.panel{padding:22px}.kpi{padding:18px 18px 15px;min-width:0}.kpi .value{font-size:clamp(23px,2vw,32px);font-weight:760;margin:9px 0 5px;white-space:nowrap;letter-spacing:-.7px;font-variant-numeric:tabular-nums}.kpi .label{font-size:12px;color:var(--sub)}.kpi .detail{color:var(--muted);font-size:11px;line-height:1.55}.kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:13px}.split-values{display:flex;justify-content:space-between;gap:6px;align-items:baseline;margin:12px 0 6px;flex-wrap:wrap}.split-values strong{font-size:24px;letter-spacing:-.7px;font-variant-numeric:tabular-nums}.mini-progress{height:5px;border-radius:4px;background:#244039;overflow:hidden}.mini-progress div{height:100%;background:var(--red);border-radius:4px}.two-panels{display:grid;grid-template-columns:1.3fr 1fr;gap:15px}.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.control-label{color:var(--sub);font-size:12px;margin-right:4px}.btn-group{display:flex;gap:5px;flex-wrap:wrap}.btn,button,select,input{font:inherit}.btn,button,select,input{background:#1a293e;color:var(--text);border:1px solid #34445b;border-radius:8px;padding:9px 11px}.btn{cursor:pointer;font-size:12px}.btn.active{background:#24517a;border-color:#579dda;color:#fff;font-weight:700}.btn:hover{border-color:#6b9fc9}input:focus,select:focus,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}select{font-size:13px;max-width:100%}input{min-width:200px;flex:1;font-size:13px}.bar-chart{height:275px;display:flex;gap:10px;align-items:stretch;padding-top:12px}.bar-column{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:5px}.bar-plot{position:relative;height:204px;width:100%;display:flex;align-items:center;justify-content:center}.bar-plot:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#506078}.bar-block{position:absolute;min-height:2px;width:65%;max-width:42px;border-radius:4px;opacity:.88}.bar-value{font-weight:650;font-variant-numeric:tabular-nums;font-size:11px;text-align:center}.bar-name{font-size:12px;color:var(--sub)}.case-list{display:grid;gap:9px}.severity{margin-top:17px;padding-top:12px;border-top:1px solid var(--line)}.severity-row{display:flex;gap:8px;align-items:center;margin:7px 0;font-size:11px;color:var(--sub)}.severity-label{width:90px;flex-shrink:0}.severity-track{flex:1;height:7px;border-radius:3px;background:#2b3548;overflow:hidden}.severity-track div{background:var(--red);height:100%}.severity-n{width:72px;text-align:right;color:var(--red);font-variant-numeric:tabular-nums}.case-item{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer;text-align:left;padding:12px 14px;border:1px solid #2c3a50;background:#182438;border-radius:10px}.case-item:hover{border-color:#639ecf;background:#23354d}.case-symbol{font-size:14px;font-weight:700}.case-date{color:var(--muted);font-size:11px;margin-top:3px}.case-pct{font-size:18px;font-weight:750;font-variant-numeric:tabular-nums}.ranked-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.settings{margin:18px 0;padding:18px 20px;border:1px solid #2e4561;border-radius:13px;background:#121f33}.settings .toolbar{margin:10px 0}.settings h3{margin:0 0 11px}.section-tools{margin:17px 0 15px;display:flex;gap:10px;flex-wrap:wrap}.stats-line{display:flex;gap:14px;align-items:center;color:var(--sub);font-size:12px;flex-wrap:wrap}.record-list{display:grid;gap:20px}.record{border:1px solid #2a3b53;border-radius:16px;background:#111b2a;overflow:hidden}.record-header{padding:20px 23px 13px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.record-id{color:var(--blue);font-weight:700;font-size:12px;margin-right:10px}.record-symbol{font-size:20px;font-weight:780;letter-spacing:.1px}.record-time{font-variant-numeric:tabular-nums;color:var(--sub);font-size:12px;margin:7px 0}.record-kind{border:1px solid #3d506a;border-radius:30px;padding:4px 10px;font-size:11px;color:#b6c7df;white-space:nowrap}.record-price{font-size:14px;margin-top:7px;font-weight:680;font-variant-numeric:tabular-nums}.record-content{margin:0 23px 15px;padding:12px 14px;background:#1a2637;border-left:3px solid #537da4;border-radius:6px;color:#c6d4e6;font-size:12px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}.snapshot-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin:0 23px 16px}.snapshot{background:#18283b;border:1px solid #273b51;border-radius:9px;padding:10px 8px;min-width:0}.snapshot .when{font-size:11px;color:var(--sub);margin-bottom:7px}.snapshot .p{font-size:12px;font-weight:650;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.snapshot .change{font-weight:750;font-variant-numeric:tabular-nums;font-size:15px;margin-top:5px}.record-summary{padding:0 23px 14px;display:flex;flex-wrap:wrap;gap:9px}.summary-pill{border:1px solid #31435a;border-radius:7px;padding:7px 10px;font-size:11px;background:#162337;color:var(--sub)}.summary-pill b{color:var(--text);margin-left:4px}.chart-heading{display:flex;gap:15px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:11px 23px;color:var(--sub);font-size:12px;border-top:1px solid #2a3b53}.chart-shell{position:relative;height:340px;margin:0 15px 18px;border-radius:9px;background:#0e1724;overflow:hidden}.chart-canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:crosshair}.chart-state{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:9px;color:var(--sub);font-size:13px;pointer-events:none;padding:20px}.tooltip{position:absolute;z-index:2;pointer-events:none;background:#1d3049f0;border:1px solid #536a88;border-radius:7px;padding:8px;font-size:11px;color:#e7f1ff;font-variant-numeric:tabular-nums;white-space:nowrap;display:none;box-shadow:0 6px 18px #050912aa}.empty{padding:40px 12px;color:var(--sub);text-align:center;border:1px dashed #394961;border-radius:12px}.footnote{padding:20px 0;color:var(--muted);font-size:12px;line-height:1.9}.anchor-flash{animation:flash 2s ease-out}@keyframes flash{0%{border-color:var(--gold);box-shadow:0 0 0 3px #ffc76b55}100%{box-shadow:none}}
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.snapshot-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.ranked-grid{grid-template-columns:1fr}.two-panels{grid-template-columns:1fr}}
+@media(max-width:650px){.wrap{padding:0 12px 35px}header{padding:20px 0}.nav{overflow-x:auto}.nav a{white-space:nowrap;padding:9px 12px}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.kpi{padding:13px}.kpi .value{font-size:22px}.snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 13px 14px}.record-header{padding:15px 13px 10px}.record-content{margin:0 13px 14px}.record-summary{padding:0 13px 12px}.chart-heading{padding:12px 13px}.chart-shell{margin:0 8px 12px;height:290px}.panel{padding:14px}.bar-chart{gap:3px}.bar-value{font-size:10px}.section-tools input{width:100%}}
+
+/* V6: highlight explicit entries consistently on desktop and mobile. */
+.record.is-direct-buy{border-color:#a16c2f;box-shadow:inset 3px 0 0 #f4b855,0 0 0 1px #f4b8551c;background:linear-gradient(110deg,#231f1b 0%,#111b2a 39%)}
+.record.is-direct-buy .record-header{background:linear-gradient(90deg,#f7bf521c,transparent 78%)}
+.record.is-direct-buy .record-kind{color:#18130a;background:#ffc76b;border-color:#ffc76b;font-weight:800;box-shadow:0 0 0 2px #ffc76b24}
+.record.is-direct-buy .record-content{border-left-color:#ffc76b;background:#28291f}
+.direct-buy-indicator{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#ffd18a;font-weight:700;margin-left:10px;vertical-align:middle}
+.direct-buy-indicator:before{content:'●';font-size:9px}
+.highlight-legend{display:flex;align-items:center;gap:9px;flex-wrap:wrap;color:var(--sub);font-size:12px;margin:12px 0 2px}
+.legend-chip{background:#ffc76b;color:#201608;font-weight:750;border-radius:5px;padding:4px 9px}
+@media(max-width:600px){.record.is-direct-buy{box-shadow:inset 3px 0 0 #f4b855}.direct-buy-indicator{margin-left:0;display:flex;margin-top:5px}.record.is-direct-buy .record-kind{white-space:normal;text-align:center}}
+
+/* V5 Mobile: single URL, responsive presentation, touch-friendly interaction. */
+html{scroll-padding-top:80px}body{overflow-x:hidden}button,a,select{ -webkit-tap-highlight-color:transparent}a,button{touch-action:manipulation}
+.chart-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.chart-actions button{padding:6px 10px;font-size:12px;line-height:1.2;min-height:32px;background:#1c3047}.chart-actions button:hover{background:#284664}
+.mobile-hint,.mobile-quick-nav{display:none}.chart-canvas{user-select:none;-webkit-user-select:none}.snapshot .p,.snapshot .change{font-variant-numeric:tabular-nums}
+@media(max-width:850px){
+ .wrap{padding:0 16px 96px}.nav{gap:7px}.nav a{flex:1;text-align:center}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-panels{grid-template-columns:1fr}.ranked-grid{grid-template-columns:1fr}
+ .snapshot-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .toolbar{display:block}.toolbar .control-label{display:block;margin:0 0 8px}.btn-group{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:6px}.btn-group .btn{flex:0 0 auto;min-height:38px}
+ .mobile-hint{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:6px}
+ .chart-heading{align-items:flex-start;gap:7px;flex-direction:column}.chart-shell{height:340px}.record{scroll-margin-top:18px}
+}
+@media(max-width:600px){
+ :root{-webkit-text-size-adjust:100%}
+ body{font-size:14px}.wrap{padding:0 12px 92px}header{padding:20px 2px 14px}header h1{font-size:20px;line-height:1.42;letter-spacing:0}
+ .nav{position:fixed;inset:auto 0 0;bottom:0;z-index:60;background:#0c1725f5;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:8px max(7px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(7px,env(safe-area-inset-left));border-top:1px solid #36455b;border-bottom:0;box-shadow:0 -6px 22px #0006}
+ .nav a,.nav button{min-width:0;background:transparent;border:0;border-radius:8px;font-size:12px;min-height:45px;padding:7px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#c1cfe0;text-align:center;white-space:nowrap;line-height:1.2;text-decoration:none}
+ .nav a:before,.nav button:before{content:'▦';font-size:19px;color:#89a8c9;font-weight:400}.nav a[href="#strategies"]:before{content:'⌁'}.nav a[href="#records"]:before{content:'☷'}.nav button:before{content:'⚙'}.nav a.active{background:#1d3651;color:#fff}.nav a.active:before{color:#65bbff}
+ h2{font-size:18px;margin:25px 0 13px}h3{font-size:14px}.kpi-grid{gap:8px;margin-bottom:10px}.kpi{padding:13px 11px;border-radius:11px}.kpi .value{font-size:clamp(19px,5.3vw,26px);margin:9px 0 5px;white-space:normal;overflow-wrap:anywhere}.kpi .label{font-size:11px;line-height:1.4;min-height:28px}.kpi .detail{font-size:10px}.split-values{gap:4px}.split-values strong{font-size:clamp(14px,4.2vw,19px)}.panel{padding:14px 12px}.two-panels{gap:12px}.bar-chart{height:245px;gap:2px}.bar-name{font-size:10px}.bar-value{font-size:9px;letter-spacing:-.4px}.bar-plot{height:175px}.bar-block{width:80%}
+ .case-item{padding:10px;gap:7px}.case-symbol{font-size:13px}.case-pct{font-size:16px}.settings{padding:14px 12px;margin:13px 0;border-radius:11px}.settings .toolbar{margin:11px 0}.btn-group{gap:7px;margin-left:-1px}.btn-group .btn{font-size:12px;padding:9px 13px}.note{font-size:11px}
+ .section-tools{display:grid;grid-template-columns:1fr 1fr;gap:9px}.section-tools input{grid-column:1/-1;min-width:0;width:100%;min-height:44px}.section-tools select{min-width:0;width:100%;height:43px;font-size:12px}.section-tools a{grid-column:1/-1;min-height:42px;display:flex;align-items:center;justify-content:center}
+ .record-list{gap:13px}.record{border-radius:12px}.record-header{padding:14px 12px 11px;gap:8px;flex-wrap:wrap}.record-symbol{font-size:19px}.record-id{font-size:11px}.record-kind{font-size:10px;padding:3px 8px}.record-time{font-size:11px;line-height:1.55}.record-price{font-size:12px}.record-content{margin:0 12px 12px;padding:10px 11px;font-size:12px;line-height:1.7}
+ .snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0 12px 12px}.snapshot{padding:9px 10px}.snapshot .when{font-size:11px;margin-bottom:4px}.snapshot .p{font-size:11px}.snapshot .change{font-size:16px;margin-top:4px}
+ .record-summary{padding:0 12px 12px;gap:6px}.summary-pill{font-size:10px;padding:7px 9px}.chart-heading{padding:11px 12px 9px;gap:10px}.chart-heading .chart-caption{font-size:11px}.chart-actions{width:100%;gap:7px}.chart-actions button{min-height:36px;padding:8px 12px}.chart-shell{margin:0 7px 10px;height:282px}.chart-shell.chart-expanded{height:min(70vh,620px)}.chart-canvas{touch-action:pan-y}.chart-state{font-size:12px}.tooltip{white-space:normal;max-width:min(190px,80%);font-size:10px}.footnote{font-size:11px;padding:16px 2px 25px}.ranked-grid .case-list{gap:6px}
+ section[id]{scroll-margin-top:16px}
+}
+@media(max-width:380px){.wrap{padding-left:9px;padding-right:9px}.kpi{padding:10px 9px}.split-values strong{font-size:14px}.record-kind{max-width:100%;white-space:normal}.chart-actions button{padding:8px 10px;font-size:11px}.chart-shell{height:265px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.anchor-flash{animation:none}}
+
+/* V7: Embedded GitHub Discussions guestbook, responsive and no back-end. */
+.nav-mobile{display:none}.comments-panel{padding:24px}.comment-intro{display:flex;gap:16px;justify-content:space-between;align-items:flex-start}.comment-intro h3{font-size:17px;margin:0 0 8px}.comments-tag{white-space:nowrap;color:#9ad0ff;background:#19334d;border:1px solid #355f85;padding:6px 11px;border-radius:24px;font-size:11px;font-weight:700}.comment-guideline{margin:19px 0;padding:12px 14px;border-left:3px solid #558ec0;background:#15263a;border-radius:5px;font-size:12px;line-height:1.8;color:#a8bdd4}.comments-status{min-height:40px;padding:12px 14px;background:#172337;border:1px dashed #34506a;border-radius:8px;color:#b6c8df;font-size:13px;line-height:1.8;white-space:pre-line}.comments-status[hidden],.comments-links a[hidden]{display:none!important}.giscus-host{width:100%;min-height:0;margin-top:15px}.giscus-host .giscus,.giscus-host .giscus-frame{width:100%!important;max-width:100%!important}.comments-links{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}.comments-links .btn{font-size:12px;text-decoration:none}.comments-links .btn:hover{color:#fff}
+@media(max-width:600px){.nav{grid-template-columns:repeat(5,minmax(0,1fr));gap:0}.nav a,.nav button{font-size:11px;padding:6px 1px;min-height:47px}.nav-desktop{display:none}.nav-mobile{display:inline}.nav a[href="#comments"]:before{content:'☏'}.comments-panel{padding:14px 11px}.comment-intro{flex-direction:column;gap:9px}.comment-intro h3{font-size:15px}.comment-guideline{font-size:11px;padding:10px 11px;margin:15px 0}.comments-status{font-size:12px;padding:11px}.comments-links .btn{font-size:11px;min-height:41px;display:inline-flex;align-items:center}.giscus-host{max-width:100%;overflow:hidden}}
+
+/* V8: dedicated discussion page and a fixed-in-viewport symbol index. */
+.wrap{max-width:1720px}
+.audit-layout{display:grid;grid-template-columns:246px minmax(0,1fr);gap:24px;align-items:start}
+.audit-main{min-width:0}
+.symbol-sidebar{position:sticky;top:83px;align-self:start;height:calc(100vh - 104px);min-height:320px;display:flex;flex-direction:column;border:1px solid #30425b;background:linear-gradient(180deg,#152237,#101a29);border-radius:14px;overflow:hidden;box-shadow:0 14px 36px #0002}
+.symbol-head{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:17px 15px 12px;border-bottom:1px solid #2c4058}
+.symbol-head strong{font-size:15px;letter-spacing:.3px}.symbol-head span{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.symbol-label{font-size:10px;color:var(--sub);margin:14px 13px 7px}
+.symbol-sidebar input{width:calc(100% - 26px);flex:0 0 auto;min-width:0;margin:0 13px 9px;font-size:12px;border-radius:8px;padding:10px 11px}
+.symbol-list{overflow-y:auto;overscroll-behavior:contain;scrollbar-color:#526780 #142236;scrollbar-width:thin;flex:1;min-height:0;padding:0 7px 12px}
+.symbol-group{margin:3px 0;border-radius:9px;border:1px solid transparent}
+.symbol-group:hover,.symbol-group.is-selected{background:#22334b;border-color:#42668c}
+.symbol-entry{display:flex;align-items:stretch;gap:2px}
+.symbol-go{border:0!important;background:transparent!important;flex:1;min-width:0;text-align:left;padding:9px 9px 8px!important;border-radius:8px;cursor:pointer;color:#dae7f9}
+.symbol-go:hover,.symbol-go:focus-visible{background:#28425d!important}
+.symbol-go .sym-name{font-size:12px;font-weight:800;overflow-wrap:anywhere;display:block}
+.symbol-go .sym-meta{display:block;font-size:10px;color:#93a9c3;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.symbol-go .sym-bad{display:inline-block;font-size:10px;color:var(--red);margin-top:4px;font-variant-numeric:tabular-nums}
+.symbol-toggle{flex:0 0 28px;margin:7px 4px 7px 0;border:1px solid #42607b;background:#243a53;padding:2px!important;font-size:11px;border-radius:6px;color:#c5d9f0;cursor:pointer}
+.symbol-sublist{padding:1px 6px 8px 15px;display:grid;gap:4px}
+.symbol-sublist[hidden]{display:none!important}
+.symbol-sublist a{font-size:11px;color:#aecce9;text-decoration:none;border-left:2px solid #4d6581;padding:8px 5px 8px 9px;display:flex;justify-content:space-between;gap:5px}
+.symbol-sublist a:hover{color:white;border-color:var(--gold);background:#294564}
+.symbol-loading{font-size:12px;color:var(--sub);padding:15px 10px;line-height:1.7}
+.symbol-bottom{border-top:1px solid #2b3e55;color:var(--muted);font-size:10px;line-height:1.65;padding:10px 13px}
+#symbol-close,.symbol-backdrop,#nav-symbols{display:none}
+.nav .nav-discuss{background:#24334c;border-color:#42668c;color:#dbeeff}
+.record{scroll-margin-top:94px}
+@media(max-width:1199px){
+ .audit-layout{display:block}
+ .symbol-sidebar{position:fixed;z-index:85;left:0;top:0;bottom:0;height:100dvh;min-height:0;width:min(338px,86vw);border-radius:0 15px 15px 0;transform:translateX(-106%);transition:transform .2s ease;box-shadow:20px 0 65px #0009}
+ .symbol-sidebar.is-open{transform:translateX(0)}
+ .symbol-backdrop{display:none;position:fixed;inset:0;z-index:82;background:#010710b8}
+ .symbol-backdrop.is-open{display:block}
+ body.symbols-open{overflow:hidden}
+ #symbol-close{display:inline-flex;align-items:center;justify-content:center;font-size:26px;line-height:1;border:0;background:transparent;color:#c6d4e7;padding:2px 7px}
+ #nav-symbols{display:inline-flex}
+ .record{scroll-margin-top:22px}
+}
+@media(max-width:600px){
+ .nav{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+ .nav #nav-settings{display:none}
+ .nav a[href="comments.html"]:before{content:'☏'}
+ .nav #nav-symbols:before{content:'≡'}
+ .symbol-sidebar{width:min(335px,89vw)}
+ .symbol-list{padding-bottom:32px}
+}
+@media(min-width:601px) and (max-width:1199px){.nav{flex-wrap:wrap}.nav #nav-symbols{display:inline-flex}}
+@media(prefers-reduced-motion:reduce){.symbol-sidebar{transition:none}}
+
+/* V8.2: separate direction-conditioned sample counts and trimmed averages. */
+.group-title{font-size:14px;font-weight:700;margin:18px 0 10px}
+.group-kpi{position:relative;overflow:hidden}
+.group-kpi.group-down{border-top:2px solid #d95769}
+.group-kpi.group-up{border-top:2px solid #26ae89}
+.group-count{display:flex;align-items:baseline;gap:9px;margin:11px 0 6px;flex-wrap:wrap}
+.group-count strong{font-size:25px;line-height:1.1;font-variant-numeric:tabular-nums}
+.group-count small{font-size:12px;margin-left:3px}
+.group-share{font-size:11px;color:var(--sub)}
+.group-avg{font-size:22px;font-weight:760;letter-spacing:-.5px;font-variant-numeric:tabular-nums;margin:0 0 8px}
+@media(max-width:650px){.group-count strong{font-size:22px}.group-avg{font-size:21px}.group-share{font-size:10px}.group-title{margin:19px 0 9px}}
+
+/* V8.3: global sample selection and direct-buy headline audit. */
+.scope-switch{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px;padding:14px 17px;border-color:#3d536d;background:#142238}
+.scope-switch-intro{display:flex;flex-direction:column;gap:4px;min-width:0}
+.scope-switch-intro strong{font-size:15px}
+.scope-switch-intro span{font-size:12px;color:var(--sub);line-height:1.5}
+.scope-switch-buttons{display:flex;gap:7px;flex-shrink:0}
+.scope-switch-buttons .btn{padding:10px 13px;border-radius:8px}
+.scope-switch-buttons .btn.active[data-scope="direct"]{background:#675121;color:#ffe7ab;border-color:#e7b957}
+.direct-spotlight{border:1px solid #80673b;background:linear-gradient(110deg,#201d1b,#161f30 65%);border-radius:15px;padding:18px 17px 11px;margin:0 0 22px}
+.spotlight-head{display:flex;justify-content:space-between;align-items:center;gap:17px;margin-bottom:17px}
+.spotlight-head h3{font-size:18px;margin:5px 0 3px;line-height:1.35}
+.spotlight-eyebrow{display:block;color:#ffd27a;font-size:11px;font-weight:750;letter-spacing:.6px}
+.spotlight-total{border:1px solid #896e3b;border-radius:12px;min-width:123px;padding:9px 12px;display:flex;flex-direction:column;align-items:center;gap:2px;background:#362b1c}
+.spotlight-total span{font-size:11px;color:#f4d7a8}.spotlight-total strong{font-size:33px;color:#ffe2a1;font-variant-numeric:tabular-nums;line-height:1.05}
+.direct-period-kpi{background:#182337;border-color:#475066;border-top:2px solid #d0a65c;padding:15px 14px}
+.direct-down{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;margin:14px 0 10px}
+.direct-down strong{font-size:27px;line-height:1;font-variant-numeric:tabular-nums}
+.direct-down span{font-size:11px;color:#aebbd0}.direct-down small{margin-left:auto;font-size:13px;font-weight:700}
+.direct-avg-label{color:#aebbd0;font-size:11px;margin-bottom:3px}.direct-average{font-size:24px;line-height:1.25;font-weight:780;font-variant-numeric:tabular-nums}
+.direct-side{display:flex;gap:9px;font-size:11px;margin-top:12px;color:var(--sub)}
+.direct-conditional{font-size:10px;color:var(--sub);margin-top:8px;padding-top:8px;border-top:1px solid #334054;line-height:1.7}
+.spotlight-footnote{margin-top:8px;margin-bottom:0}.scope-inline-label{font-size:12px;vertical-align:middle;color:#f1c67e;border:1px solid #645538;background:#302918;border-radius:999px;padding:5px 9px;font-weight:600;white-space:nowrap}
+@media(max-width:850px){.scope-switch{align-items:stretch;flex-direction:column}.scope-switch-buttons{width:100%}.scope-switch-buttons .btn{flex:1;min-width:0}.spotlight-head{align-items:flex-start}.direct-spotlight{padding:14px 12px 10px}}
+@media(max-width:650px){.scope-switch-buttons .btn{font-size:11px;padding:11px 8px}.spotlight-head h3{font-size:16px}.spotlight-total{min-width:84px;padding:8px}.spotlight-total strong{font-size:28px}.spotlight-total span{font-size:10px}.direct-period-kpi{padding:11px 10px}.direct-down strong{font-size:25px}.direct-down small{margin-left:0}.direct-average{font-size:22px}.direct-conditional{font-size:10px}.scope-inline-label{display:inline-block;margin-top:4px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>金本位元帅历史策略审计（自20251001）</h1></header>
+<nav class="nav" aria-label="页面导航"><a href="#overview" class="active"><span class="nav-desktop">数据总览</span><span class="nav-mobile">总览</span></a><a href="#strategies"><span class="nav-desktop">策略分析</span><span class="nav-mobile">分析</span></a><a href="#records"><span class="nav-desktop">完整数据表</span><span class="nav-mobile">数据表</span></a><a href="comments.html" class="nav-discuss"><span class="nav-desktop">留言广场</span><span class="nav-mobile">留言</span></a><button type="button" id="nav-symbols" aria-label="打开标的目录" aria-expanded="false"><span class="nav-desktop">标的导航</span><span class="nav-mobile">标的</span></button><button type="button" id="nav-settings" aria-label="跳转K线设置"><span class="nav-desktop">K线设置</span><span class="nav-mobile">设置</span></button></nav>
+<div class="audit-layout">
+<aside id="symbol-sidebar" class="symbol-sidebar" aria-label="标的快捷导航">
+ <div class="symbol-head"><div><strong>标的速览</strong><span id="symbol-count">正在读取…</span></div><button type="button" id="symbol-close" aria-label="关闭标的目录">×</button></div>
+ <label class="symbol-label" for="symbol-search">查找币种或策略编号</label>
+ <input id="symbol-search" type="search" placeholder="搜索 BTC、ORDI、#38…" autocomplete="off">
+ <div id="symbol-list" class="symbol-list" aria-live="polite"><div class="symbol-loading">加载标的中…</div></div>
+ <div class="symbol-bottom">点击标的直达最新策略；多条记录可展开逐条选择</div>
+</aside>
+<div id="symbol-backdrop" class="symbol-backdrop" aria-hidden="true"></div>
+<main id="audit-main" class="audit-main">
+
+<section id="overview">
+<h2>数据总览</h2>
+<div class="scope-switch panel" role="group" aria-label="统计范围切换">
+ <div class="scope-switch-intro"><strong>统计范围</strong><span id="scope-description">当前展示全部历史策略的行情表现</span></div>
+ <div class="scope-switch-buttons" id="scope-buttons"><button type="button" class="btn active" data-scope="all" aria-pressed="true">全部策略</button><button type="button" class="btn" data-scope="direct" aria-pressed="false">仅明确买入 / 已买</button></div>
+</div>
+<section class="direct-spotlight" id="direct-spotlight" aria-label="明确买入历史表现汇总">
+ <div class="spotlight-head"><div><span class="spotlight-eyebrow">重点审计 · 明确买入 / 已买</span><h3>明确买入后的历史行情表现</h3><p class="note">此处始终展示明确买入样本，不随上方统计范围切换而隐藏。涨跌幅基于发言时价格，并非实际交易收益。</p></div><div class="spotlight-total"><span>明确买入总样本数</span><strong id="direct-total">—</strong><span>条</span></div></div>
+ <div id="direct-period-cards" class="kpi-grid" aria-live="polite"></div>
+ <p class="note spotlight-footnote">各窗口展示下跌 / 上涨 / 持平及有效分母。大号涨跌幅为<strong>该窗口全部有效明确买入样本的截尾平均涨跌幅</strong>（下跌和上涨共同参与），不是仅下跌样本的平均；下方额外列出下跌组和上涨组各自的截尾平均幅度。样本数≥8时去掉最高2条、最低2条，否则计算普通平均。</p>
+</section>
+<h3 class="group-title">当前筛选范围 · 综合统计</h3>
+<div id="headline-cards" class="kpi-grid" aria-live="polite"></div>
+<div id="ratio-cards" class="kpi-grid" aria-live="polite"></div>
+<h3 class="group-title"><span class="down">↓ 下跌样本</span> · 数量、占比及平均跌幅</h3>
+<div id="down-avg-cards" class="kpi-grid" aria-live="polite"></div>
+<h3 class="group-title"><span class="up">↑ 上涨样本</span> · 数量、占比及平均涨幅</h3>
+<div id="up-avg-cards" class="kpi-grid" aria-live="polite"></div>
+<h3 class="group-title">全部有效样本 · 整体表现</h3>
+<div id="median-cards" class="kpi-grid"></div>
+<p class="note" style="margin:-3px 0 18px">下面的统计随「全部策略 / 仅明确买入」切换同步更新。分组平均数仅在相应上涨／下跌样本内部计算，不等同于整体收益。每个方向有效样本≥8条时，按涨跌幅排序后剔除最低2条和最高2条，再求平均；不足8条时直接计算算术平均。零涨跌单列、不计入涨跌组。下方全样本中位数包括上涨、下跌和持平，适合观察整体方向。这是发言后行情表现，不是实际成交盈亏。</p>
+<div class="two-panels">
+<div class="panel"><h3>发言后整体涨跌幅中位数（全部有效样本）</h3><div id="median-bars" class="bar-chart"></div><p class="note">使用当前统计范围内所有有效价格观察；不代表实际交易盈亏。红色为下跌，绿色为上涨。</p></div>
+<div class="panel"><h3>24小时／48小时大跌案例</h3><div id="extremes" class="case-list"></div><div id="severity" class="severity"></div><p class="note">按当前统计范围的发言后固定时点跌幅排序；点击直达原始发言与K线。</p></div>
+</div>
+</section>
+<section id="strategies">
+<h2>策略分析 <span class="scope-inline-label" id="strategy-scope-label">全部策略</span></h2>
+<div class="ranked-grid" id="ranked"></div>
+<div class="settings" id="global-settings">
+<h3>全局 K 线设置</h3>
+<div class="toolbar"><span class="control-label">K线周期</span><div class="btn-group" id="tf-buttons"><button type="button" class="btn" data-tf="5">5分钟</button><button type="button" class="btn" data-tf="15">15分钟</button><button type="button" class="btn active" data-tf="60">1小时</button><button type="button" class="btn" data-tf="240">4小时</button><button type="button" class="btn" data-tf="480">8小时</button><button type="button" class="btn" data-tf="1440">1天</button></div></div>
+<div class="toolbar"><span class="control-label">发言后走势</span><div class="btn-group" id="window-buttons"><button type="button" class="btn" data-win="8">8小时</button><button type="button" class="btn" data-win="24">1天</button><button type="button" class="btn" data-win="48">2天</button><button type="button" class="btn active" data-win="168">1周</button><button type="button" class="btn" data-win="0">完整前后走势</button></div></div>
+<p class="note">默认1小时K线、发言后1周；窗口同时保留相应发言前行情，便于判断是否追高。完整前后走势展示发言前后各14天的历史行情。更改后对所有策略K线生效。</p><p class="mobile-hint">手机操作：在K线内部左右滑动查看历史，上下滑动页面；点击每张图右上角的 + / − 缩放或「大图」放大查看。</p>
+</div>
+</section>
+<section id="records">
+<h2>完整数据表 <span class="scope-inline-label" id="records-scope-label">全部历史发言</span></h2>
+<div class="section-tools">
+<input id="search" type="search" placeholder="搜索序号、币种、发言原文" aria-label="搜索策略">
+<select id="order" aria-label="发言时间排序"><option value="new">发言时间：最新在前</option><option value="old">发言时间：最早在前</option><option value="bad48">48小时跌幅：从差到好</option><option value="bad7d">一周跌幅：从差到好</option></select>
+<select id="filter" aria-label="策略表现筛选"><option value="all">全部表现</option><option value="direct">仅看明确买入/已买</option><option value="drop48">48小时后下跌</option><option value="drop7d">一周后下跌</option><option value="rise48">48小时后上涨</option><option value="missing">没有完整K线</option></select>
+<a class="btn" href="audit.csv" download="金本位元帅历史策略审计.csv" style="text-decoration:none">导出完整数据 CSV</a>
+</div>
+<div class="highlight-legend"><span class="legend-chip">明确买入 / 已买</span><span>金色高亮代表明确买入信号，并不代表实际成交或交易盈亏；其他类型保持普通样式。</span></div>
+<div class="stats-line" id="result-count"></div>
+<div id="record-list" class="record-list" style="margin-top:17px"></div>
+</section>
+<footer class="footnote">价格来源：用户整理的历史策略发言、币安 U 本位合约历史K线及原始Excel固定时点快照。不同采样精度可能造成少量差异。全部发言并不都等于实际成交；目标触及也不代表已止盈。窗口统计以可获得的行情为准，不对缺失数据作推断。</footer>
+</main></div>
+</div>
+<script>
+'use strict';
+const $=q=>document.querySelector(q);
+const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const valid=x=>typeof x==='number'&&Number.isFinite(x);
+const median=a=>{if(!a.length)return null;const b=[...a].sort((x,y)=>x-y);return b.length%2?b[(b.length-1)/2]:(b[b.length/2-1]+b[b.length/2])/2};
+// Robust group mean: trim TWO most negative and TWO most positive observations
+// within each direction when n >= 8; otherwise use the raw mean.
+const groupAverage=a=>{if(!a.length)return {value:null,trimmed:false,used:0};const sorted=[...a].sort((x,y)=>x-y);const trimmed=a.length>=8;const b=trimmed?sorted.slice(2,-2):sorted;return {value:b.reduce((t,x)=>t+x,0)/b.length,trimmed,used:b.length}};
+const fmt=(v,d=2)=>valid(v)?Number(v).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:d}):'—';
+const price=v=>!valid(v)?'—':v>=10?fmt(v,4):v>=1?fmt(v,5):fmt(v,8);
+const pc=v=>!valid(v)?'<span class="muted">—</span>':`<span class="${v<0?'down':'up'}">${v>0?'+':''}${fmt(v,2)}%</span>`;
+const rawPct=v=>!valid(v)?'—':`${v>0?'+':''}${fmt(v,2)}%`;
+const tstr=s=>String(s||'').slice(0,16).replace('T',' ');
+const horizons=[['15m','15分钟'],['1h','1小时'],['4h','4小时'],['12h','12小时'],['24h','1天'],['48h','2天'],['72h','3天'],['168h','1周']];
+const keyPeriods=[['1h','1小时'],['4h','4小时'],['24h','24小时'],['48h','48小时'],['168h','一周']];
+let DATA=[],scope='all',visibleRecords=[],tf=60,windowHours=168,observer=null,ro=null,chartState=new Map(),dataCache=new Map(),visibleCharts=new Set();
+function point(r,key){return r.metrics?.points?.[key]||{price:null,pct:null}}
+function returns(r,key){return point(r,key).pct}
+function card(label,value,detail='',style=''){return `<article class="kpi"><div class="label">${label}</div><div class="value ${style}">${value}</div><div class="detail">${detail}</div></article>`}
+function scopedRows(){return scope==='direct'?DATA.filter(r=>r.kind==='明确买入/已买'):DATA}
+function renderDirectSpotlight(){
+ const direct=DATA.filter(r=>r.kind==='明确买入/已买');
+ $('#direct-total').textContent=direct.length;
+ $('#direct-period-cards').innerHTML=keyPeriods.map(([key,label])=>{
+  const values=direct.map(r=>returns(r,key)).filter(valid);
+  const down=values.filter(v=>v<0),up=values.filter(v=>v>0),flat=values.length-down.length-up.length;
+  const totalAvg=groupAverage(values),downAvg=groupAverage(down),upAvg=groupAverage(up);
+  const cls=totalAvg.value===null?'muted':totalAvg.value<0?'down':totalAvg.value>0?'up':'muted';
+  return `<article class="kpi direct-period-kpi"><div class="label">发言后${label} · 明确买入</div>
+   <div class="direct-down"><strong class="down">${down.length}</strong><span>条下跌 / ${values.length} 有效</span><small class="down">${values.length?fmt(down.length/values.length*100,1)+'%':'—'}</small></div>
+   <div class="direct-avg-label">全样本截尾平均涨跌幅</div><div class="direct-average ${cls}">${rawPct(totalAvg.value)}</div>
+   <div class="direct-side"><span class="up">上涨 ${up.length}条</span><span>持平 ${flat}条</span></div>
+   <div class="direct-conditional">下跌组均幅 <b class="down">${rawPct(downAvg.value)}</b><span> / </span>上涨组均幅 <b class="up">${rawPct(upAvg.value)}</b></div>
+  </article>`;
+ }).join('');
+}
+function dashboard(){
+ const rows=scopedRows();
+ $('#scope-description').textContent=scope==='direct'?`当前仅分析 ${rows.length} 条明确买入／已买发言；其它观点已从下方统计和数据表排除`:`当前分析全部 ${rows.length} 条历史发言，含观察、条件单与明确买入`;
+ $('#strategy-scope-label').textContent=scope==='direct'?'仅明确买入 / 已买':'全部策略';
+ $('#records-scope-label').textContent=scope==='direct'?'仅明确买入 / 已买':'全部历史发言';
+ const ok=rows.filter(r=>!!r.kline),withSnapshots=rows.filter(r=>horizons.some(([k])=>valid(point(r,k).price)));
+ const p7=rows.map(r=>returns(r,'168h')).filter(valid),downs=p7.filter(n=>n<0);
+ const targetEligible=rows.filter(r=>r.metrics?.target48_valid===true);
+ const targetHits=targetEligible.filter(r=>r.metrics?.target48_hit===true);
+ $('#headline-cards').innerHTML=[
+  card(scope==='direct'?'明确买入策略数':'合并后总策略数',rows.length,scope==='direct'?`占全部 ${DATA.length} 条发言的 ${fmt(rows.length/DATA.length*100,1)}%`:'逐条保留原始序号'),
+  card('可抽取行情记录数',ok.length,`${withSnapshots.length}条含原表价格快照`),
+  card('7天有效样本',p7.length,'有效固定时点价格'),
+  card('7天下跌占比',p7.length?fmt(downs.length/p7.length*100,1)+'%':'—',`${downs.length}条下跌 · ${p7.length-downs.length}条上涨或持平`,'down'),
+  card('48小时内达到目标占比',targetEligible.length?fmt(100*targetHits.length/targetEligible.length,1)+'%':'待采集',targetEligible.length?`${targetHits.length}/${targetEligible.length}条明确可判定目标`: '仅统计明确买入/建议参与、可用首目标及完整48h K线')
+ ].join('');
+ $('#ratio-cards').innerHTML=keyPeriods.map(([k,label])=>{
+  const a=rows.map(r=>returns(r,k)).filter(valid),n=a.filter(v=>v<0).length,up=a.filter(v=>v>0).length;
+  const ratio=a.length?100*n/a.length:null;
+  return `<article class="kpi"><div class="label">${label}后涨跌占比</div><div class="split-values"><strong class="down">${a.length?fmt(100*n/a.length,1)+'%':'—'} ↓</strong><strong class="up">${a.length?fmt(100*up/a.length,1)+'%':'—'} ↑</strong></div><div class="mini-progress"><div style="width:${ratio??0}%"></div></div><div class="detail" style="margin-top:7px">下跌${n} / 上涨${up} / 持平${a.length-n-up} · 有效${a.length}</div></article>`
+ }).join('');
+ function directionCards(direction){
+  return keyPeriods.map(([k,label])=>{
+   const a=rows.map(r=>returns(r,k)).filter(valid);
+   const arr=a.filter(v=>direction==='down'?v<0:v>0);
+   const n=arr.length, stats=groupAverage(arr),ratio=a.length?100*n/a.length:null;
+   const css=direction==='down'?'down':'up',unit=direction==='down'?'跌':'涨';
+   return `<article class="kpi group-kpi ${css==='down'?'group-down':'group-up'}"><div class="label">${label}后${unit}幅 · ${unit}样本</div><div class="group-count"><strong class="${css}">${n}<small>条</small></strong><span class="group-share">占有效样本 ${valid(ratio)?fmt(ratio,1)+'%':'—'}</span></div><div class="group-avg ${css}">${rawPct(stats.value)}</div><div class="detail">${stats.trimmed?'剔除两端各2条后的平均'+unit+'幅':'平均'+unit+'幅（样本不足8条不截尾）'}<br>原样本 ${n} 条${stats.trimmed?' · 参与均值 '+stats.used+' 条':''} · 总有效 ${a.length} 条</div></article>`;
+  }).join('');
+ }
+ $('#down-avg-cards').innerHTML=directionCards('down');
+ $('#up-avg-cards').innerHTML=directionCards('up');
+ $('#median-cards').innerHTML=keyPeriods.map(([k,label])=>{
+  const a=rows.map(r=>returns(r,k)).filter(valid),neg=a.filter(v=>v<0),pos=a.filter(v=>v>0);
+  const allMed=median(a),side=valid(allMed)?(allMed<0?'down':allMed>0?'up':'muted'):'muted';
+  return `<article class="kpi"><div class="label">${label}后全样本涨跌幅中位数</div><div class="value ${side}">${rawPct(allMed)}</div><div class="detail">全部 ${a.length} 条有效：<span class="down">${neg.length} 跌</span> / <span class="up">${pos.length} 涨</span>${a.length-neg.length-pos.length?` / ${a.length-neg.length-pos.length} 平`:''}<br>合并全部有效样本计算，不对涨跌组等权</div></article>`
+ }).join('');
+ const array=horizons.map(([k,label])=>({label,v:median(rows.map(r=>returns(r,k)).filter(valid))}));
+ const max=Math.max(1,...array.map(x=>Math.abs(x.v||0)));
+ $('#median-bars').innerHTML=array.map(x=>{
+  const h=Math.max(2,Math.abs(x.v||0)/max*94),up=valid(x.v)&&x.v>=0;
+  const top=up?`calc(50% - ${h}px)`:'50%';
+  return `<div class="bar-column"><div class="bar-value ${up?'up':'down'}">${rawPct(x.v)}</div><div class="bar-plot"><div class="bar-block" style="height:${h}px;top:${top};background:${up?'var(--green)':'var(--red)'}"></div></div><div class="bar-name">${x.label}</div></div>`
+ }).join('');
+ const worst48=rows.filter(r=>valid(returns(r,'48h'))).sort((a,b)=>returns(a,'48h')-returns(b,'48h')).slice(0,6);
+ $('#extremes').innerHTML=worst48.map(r=>`<button class="case-item" data-jump="${escapeHtml(r.row)}"><span><span class="case-symbol">${escapeHtml(r.label)} · #${escapeHtml(r.id)}</span><div class="case-date">${escapeHtml(tstr(r.published))}</div></span><span class="case-pct down">${rawPct(returns(r,'48h'))}</span></button>`).join('');
+ const p48=rows.map(r=>returns(r,'48h')).filter(valid);
+ $('#severity').innerHTML='<div style="color:var(--sub);font-size:12px;margin-bottom:8px">48小时后深跌程度 · 按有效价格快照</div>'+[10,20,30,40,50].map(n=>{const count=p48.filter(v=>v<=-n).length;return `<div class="severity-row"><span class="severity-label">下跌 ≥ ${n}%</span><div class="severity-track"><div style="width:${p48.length?100*count/p48.length:0}%"></div></div><span class="severity-n">${count} / ${p48.length}</span></div>`}).join('');
+ const ranked=[['48小时跌幅最大','48h'],['一周跌幅最大','168h'],['发言后4小时急跌','4h']];
+ $('#ranked').innerHTML=ranked.map(([name,k])=>{
+  const worst=rows.filter(r=>valid(returns(r,k))).sort((a,b)=>returns(a,k)-returns(b,k)).slice(0,5);
+  return `<div class="panel"><h3>${name}</h3><div class="case-list">${worst.map(r=>`<button class="case-item" data-jump="${escapeHtml(r.row)}"><span><span class="case-symbol">${escapeHtml(r.label)} · #${escapeHtml(r.id)}</span><div class="case-date">${escapeHtml(tstr(r.published))}</div></span><span class="case-pct down">${rawPct(returns(r,k))}</span></button>`).join('')}</div></div>`
+ }).join('');
+ document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>jump(b.dataset.jump)));
+}
+function jump(row,updateHash=true){
+ if(!document.getElementById('record-'+row)){
+  const target=DATA.find(r=>String(r.row)===String(row));
+  if(target && scope==='direct' && target.kind!=='明确买入/已买')setScope('all');
+  $('#search').value='';$('#filter').value='all';renderRecords();
+ }
+ const element=document.getElementById('record-'+row);
+ if(element){if(updateHash)history.replaceState(null,'','#record-'+row);element.scrollIntoView({behavior:'smooth',block:'start'});element.classList.remove('anchor-flash');void element.offsetWidth;element.classList.add('anchor-flash')}
+}
+function recordHtml(r){
+ const isDirect=r.kind==='明确买入/已买';
+ const m=r.metrics||{},snapshot=horizons.map(([k,label])=>{
+  const p=point(r,k);
+  return `<div class="snapshot"><div class="when">发言后${label}</div><div class="p">价格 ${price(p.price)}</div><div class="change">${pc(p.pct)}</div></div>`
+ }).join('');
+ const parts=[`前14天区间位置 <b>${pc(m.pre14_position_pct)}</b>`,`最大有利波动 <b>${pc(m.mfe_pct)}</b>`,`最大不利波动 <b>${pc(m.mae_pct)}</b>`];
+ if(valid(r.target))parts.push(`首目标 <b>${price(r.target)}</b>`);
+ if(m.target48_valid)parts.push(`48h首目标 <b class="${m.target48_hit?'up':'down'}">${m.target48_hit?'触及':'未触及'}</b>`);
+ return `<article class="record${isDirect?' is-direct-buy':''}" id="record-${escapeHtml(r.row)}" data-row="${escapeHtml(r.row)}">
+ <div class="record-header"><div><div><span class="record-id">#${escapeHtml(r.id)}</span><span class="record-symbol">${escapeHtml(r.label||'未标注')}</span>${isDirect?'<span class="direct-buy-indicator">明确买入信号</span>':''}</div><div class="record-time">发言：${escapeHtml(tstr(r.published))}（北京时间） · 合约 ${escapeHtml(r.symbol||'—')}</div><div class="record-price">发言价格 <span style="color:var(--gold)">${price(m.base)}</span> USDT</div></div><span class="record-kind">${escapeHtml(r.kind||'未分类')}</span></div>
+ <div class="record-content">${escapeHtml(r.content)}</div>
+ <div class="snapshot-grid">${snapshot}</div>
+ <div class="record-summary">${parts.map(p=>`<div class="summary-pill">${p}</div>`).join('')}</div>
+ <div class="chart-heading"><span class="chart-caption">历史K线 · <b class="chart-tf-label">1小时</b> · 发言后 <b class="chart-window-label">1周</b> · <span style="color:var(--gold)">黄色：喊单时间 / 价格</span></span><div class="chart-actions"><button type="button" data-chart-action="in" data-chart-row="${r.row}" aria-label="放大K线">＋</button><button type="button" data-chart-action="out" data-chart-row="${r.row}" aria-label="缩小K线">－</button><button type="button" data-chart-action="reset" data-chart-row="${r.row}">重置</button><button type="button" data-chart-action="expand" data-chart-row="${r.row}" aria-label="切换大图">大图</button></div></div>
+ <div class="chart-shell"><canvas class="chart-canvas" role="img" aria-label="${escapeHtml(r.label)} 发言前后K线图"></canvas><div class="chart-state">${r.kline?'K线准备中…':'未采集到连续K线；上方仍展示已有价格快照'}${m.warning?'<small>'+escapeHtml(m.warning)+'</small>':''}</div><div class="tooltip"></div></div>
+ </article>`;
+}
+function renderRecords(){
+ const q=$('#search').value.trim().toLowerCase(),filter=$('#filter').value,order=$('#order').value;
+ visibleRecords=scopedRows().filter(r=>{
+  const match=(r.id+' '+r.label+' '+r.symbol+' '+r.content).toLowerCase().includes(q);
+  return match&&(filter==='all'||filter==='direct'&&r.kind==='明确买入/已买'||filter==='missing'&&!r.kline||filter==='drop48'&&returns(r,'48h')<0||filter==='drop7d'&&returns(r,'168h')<0||filter==='rise48'&&returns(r,'48h')>0)
+ });
+ const tie=(a,b)=>b.published.localeCompare(a.published);
+ if(order==='old')visibleRecords.sort((a,b)=>a.published.localeCompare(b.published));
+ else if(order==='bad48')visibleRecords.sort((a,b)=>(returns(a,'48h')??999)-(returns(b,'48h')??999)||tie(a,b));
+ else if(order==='bad7d')visibleRecords.sort((a,b)=>(returns(a,'168h')??999)-(returns(b,'168h')??999)||tie(a,b));
+ else visibleRecords.sort(tie);
+ if(observer)observer.disconnect();if(ro)ro.disconnect();
+ chartState.clear();visibleCharts.clear();
+ $('#record-list').innerHTML=visibleRecords.length?visibleRecords.map(recordHtml).join(''):'<div class="empty">没有符合条件的策略记录</div>';
+ $('#result-count').textContent=`当前范围 ${scope==='direct'?'仅明确买入/已买':'全部策略'} · 展示 ${visibleRecords.length} / ${scopedRows().length} 条（全部库共 ${DATA.length} 条） · 其中明确买入/已买 ${visibleRecords.filter(r=>r.kind==='明确买入/已买').length} 条 · 每条记录均内嵌K线区域`;
+ observer=new IntersectionObserver(entries=>{
+  for(const e of entries)if(e.isIntersecting){observer.unobserve(e.target);initializeChart(e.target)}
+ },{rootMargin:'500px 0px'});
+ ro=new ResizeObserver(entries=>{for(const e of entries){const p=e.target.closest('.record');if(p&&chartState.has(+p.dataset.row))drawChart(+p.dataset.row)}});
+ for(const card of document.querySelectorAll('.record')){observer.observe(card);ro.observe(card.querySelector('.chart-shell'))}
+}
+async function initializeChart(card){
+ const row=+card.dataset.row,r=DATA.find(x=>x.row===row),shell=card.querySelector('.chart-shell');
+ if(!r?.kline){shell.querySelector('canvas').style.display='none';return}
+ shell.querySelector('.chart-state').textContent='正在载入历史行情…';
+ try{
+  let promise=dataCache.get(r.kline);
+  if(!promise){promise=fetch(r.kline).then(res=>{if(!res.ok)throw Error('HTTP '+res.status);return res.json()});dataCache.set(r.kline,promise)}
+  const rows=await promise;
+  if(!card.isConnected)return;
+  if(!Array.isArray(rows)||!rows.length)throw Error('数据为空');
+  const state={item:r,raw:rows,aggregated:[],bars:[],view:null,hover:null,drag:null,element:shell};chartState.set(row,state);visibleCharts.add(row);
+  shell.querySelector('.chart-state').style.display='none';attachChart(row);refreshChart(row,true)
+ }catch(e){shell.querySelector('.chart-state').textContent='K线加载失败：'+e.message;dataCache.delete(r.kline)}
+}
+function aggregate(raw,minutes){
+ const ms=minutes*60000,arr=[];
+ for(const k of raw){const bucket=Math.floor(k[0]/ms)*ms,last=arr[arr.length-1];if(last&&last.t===bucket){last.h=Math.max(last.h,k[2]);last.l=Math.min(last.l,k[3]);last.c=k[4];last.v+=k[5]||0}else arr.push({t:bucket,o:k[1],h:k[2],l:k[3],c:k[4],v:k[5]||0})}
+ return arr;
+}
+function timeRange(r){const t=Date.parse(r.published),before=windowHours===0?14*86400000:windowHours*3600000,after=windowHours===0?14*86400000:windowHours*3600000;return {from:t-before,to:t+after}}
+function refreshChart(row,reset){
+ const st=chartState.get(row);if(!st)return;st.bars=aggregate(st.raw,tf);
+ if(reset||!st.view)st.view=timeRange(st.item);
+ const labels={'5':'5分钟','15':'15分钟','60':'1小时','240':'4小时','480':'8小时','1440':'1天'};
+ st.element.closest('.record').querySelector('.chart-tf-label').textContent=labels[tf];
+ st.element.closest('.record').querySelector('.chart-window-label').textContent=({'0':'完整前后走势','8':'8小时','24':'1天','48':'2天','168':'1周'})[windowHours];
+ drawChart(row)
+}
+function drawChart(row){
+ const st=chartState.get(row);if(!st||!st.element.isConnected)return;
+ const canvas=st.element.querySelector('canvas'),ctx=canvas.getContext('2d');if(!ctx)return;
+ const width=st.element.clientWidth,height=st.element.clientHeight,ratio=Math.min(window.devicePixelRatio||1,2);
+ if(width<50||height<80)return;
+ canvas.width=Math.floor(width*ratio);canvas.height=Math.floor(height*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);
+ const mobile=width<650;const pad={l:mobile?9:17,r:mobile?73:95,t:29,b:33},x0=pad.l,x1=width-pad.r,y0=pad.t,y1=height-pad.b,cw=x1-x0,ch=y1-y0;
+ ctx.fillStyle='#0e1724';ctx.fillRect(0,0,width,height);
+ if(cw<100)return;
+ const {from,to}=st.view;const bars=st.bars.filter(b=>b.t+tf*60000>=from&&b.t<=to);
+ if(!bars.length){ctx.fillStyle='#9baec7';ctx.font='13px sans-serif';ctx.fillText('此时间范围内无K线记录',24,60);return}
+ let lo=Math.min(...bars.map(b=>b.l)),hi=Math.max(...bars.map(b=>b.h));const base=st.item.metrics.base;
+ if(valid(base)&&base>0){lo=Math.min(lo,base);hi=Math.max(hi,base)}
+ if(!(hi>lo)){hi=lo+Math.abs(lo||1)*.02}
+ const space=(hi-lo)*.10;lo-=space;hi+=space;
+ const getX=t=>x0+(t-from)/(to-from)*cw;
+ const getY=p=>y0+(hi-p)/(hi-lo)*ch;
+ st.geom={from,to,lo,hi,x0,x1,y0,y1,getX,getY,width,height};
+ ctx.strokeStyle='#263448';ctx.lineWidth=1;ctx.font='11px system-ui';ctx.textBaseline='middle';
+ for(let i=0;i<5;i++){const y=y0+i*ch/4;ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke();ctx.fillStyle='#93a5be';ctx.textAlign='left';ctx.fillText(price(hi-(hi-lo)*i/4),x1+(mobile?4:9),y)}
+ ctx.textAlign='center';ctx.fillStyle='#93a5be';const fmtTime=t=>new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(t);
+ for(let i=0;i<=5;i++){const x=x0+i*cw/5;ctx.fillText(fmtTime(from+i*(to-from)/5),x, height-15)}
+ ctx.save();ctx.beginPath();ctx.rect(x0,y0,cw,ch);ctx.clip();
+ const barw=Math.max(.45,Math.min(11,tf*60000*cw/(to-from)*.73));
+ for(const b of bars){const x=getX(b.t+tf*30000),up=b.c>=b.o;ctx.strokeStyle=up?'#27d2a4':'#ff6578';ctx.fillStyle=ctx.strokeStyle;ctx.lineWidth=Math.max(.65,Math.min(1.3,barw*.35));ctx.beginPath();ctx.moveTo(x,getY(b.h));ctx.lineTo(x,getY(b.l));ctx.stroke();const top=getY(Math.max(b.o,b.c)),bottom=getY(Math.min(b.o,b.c));ctx.fillRect(x-barw/2,top,barw,Math.max(1,bottom-top))}
+ const publish=Date.parse(st.item.published),ex=getX(publish);
+ if(valid(base)&&base>0){const ey=getY(base);ctx.setLineDash([6,5]);ctx.strokeStyle='#ffcb6e';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(x0,ey);ctx.lineTo(x1,ey);ctx.stroke();ctx.setLineDash([])}
+ if(ex>=x0&&ex<=x1){ctx.setLineDash([7,5]);ctx.strokeStyle='#ffd16e';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(ex,y0);ctx.lineTo(ex,y1);ctx.stroke();ctx.setLineDash([])}
+ if(st.hover&&st.hover.x>=x0&&st.hover.x<=x1){const bx=st.hover.x,by=st.hover.y;ctx.strokeStyle='#91a3bb88';ctx.lineWidth=1;ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(bx,y0);ctx.lineTo(bx,y1);ctx.moveTo(x0,by);ctx.lineTo(x1,by);ctx.stroke();ctx.setLineDash([])}
+ ctx.restore();
+ // 固定事件提示：精确发言日期、时间与价格，非K线开盘时刻。
+ if(ex>=x0&&ex<=x1){const title=mobile?`发言 ${tstr(st.item.published).slice(5)} · ${price(base)}`:`发言 ${tstr(st.item.published)}  ${price(base)} USDT`;ctx.font='bold 11px sans-serif';const tw=ctx.measureText(title).width+16;let lx=Math.max(x0,Math.min(ex-tw/2,Math.max(x0,x1-tw)));ctx.fillStyle='#634b26';ctx.fillRect(lx,4,tw,20);ctx.fillStyle='#ffe5a8';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(title,lx+8,14)}
+ if(valid(base)&&base>0){const ey=getY(base);if(ey>=y0&&ey<=y1){ctx.fillStyle='#6b532d';ctx.fillRect(x1+1,ey-10,pad.r-5,20);ctx.fillStyle='#ffe09c';ctx.font='bold 11px sans-serif';ctx.textAlign='left';ctx.fillText(price(base),x1+(mobile?4:7),ey)}}
+ if(st.hover){const x=st.hover.x,candidates=bars.filter(b=>Math.abs(getX(b.t+tf*30000)-x)<Math.max(12,barw));const near=candidates.sort((a,b)=>Math.abs(getX(a.t)-x)-Math.abs(getX(b.t)-x))[0];
+  const tip=st.element.querySelector('.tooltip');if(near){tip.style.display='block';tip.style.left=Math.max(7,Math.min(width-(mobile?195:210),x+14))+'px';tip.style.top=Math.max(10,Math.min(height-96,st.hover.y-70))+'px';tip.textContent=`${fmtTime(near.t)}  开 ${price(near.o)}  高 ${price(near.h)}  低 ${price(near.l)}  收 ${price(near.c)}`;}else tip.style.display='none';
+ }else st.element.querySelector('.tooltip').style.display='none';
+}
+function attachChart(row){const st=chartState.get(row),canvas=st.element.querySelector('canvas');
+ canvas.addEventListener('pointermove',e=>{const box=canvas.getBoundingClientRect(),x=e.clientX-box.left,y=e.clientY-box.top;if(st.drag){const offset=(x-st.drag.x)*(st.drag.to-st.drag.from)/(st.geom.x1-st.geom.x0);st.view={from:st.drag.from-offset,to:st.drag.to-offset};}st.hover={x,y};drawChart(row)});
+ canvas.addEventListener('pointerdown',e=>{if(!st.geom)return;canvas.setPointerCapture(e.pointerId);st.drag={x:e.clientX-canvas.getBoundingClientRect().left,from:st.view.from,to:st.view.to}});
+ canvas.addEventListener('pointerup',()=>{st.drag=null});canvas.addEventListener('pointercancel',()=>{st.drag=null});canvas.addEventListener('pointerleave',()=>{st.hover=null;st.drag=null;drawChart(row)});
+ canvas.addEventListener('wheel',e=>{e.preventDefault();const rect=canvas.getBoundingClientRect(),x=e.clientX-rect.left,geom=st.geom;if(!geom)return;const factor=e.deltaY<0?.80:1.25,span=st.view.to-st.view.from,newspan=Math.min(28*86400000,Math.max(tf*60000*12,span*factor)),pivot=(x-geom.x0)/(geom.x1-geom.x0),pivotTime=st.view.from+span*pivot;st.view={from:pivotTime-newspan*pivot,to:pivotTime+newspan*(1-pivot)};drawChart(row)},{passive:false});
+ canvas.addEventListener('dblclick',()=>refreshChart(row,true));
+}
+function zoomChart(row,factor){const st=chartState.get(row);if(!st?.view)return;const span=st.view.to-st.view.from;const mid=(st.view.to+st.view.from)/2;const next=Math.min(28*86400000,Math.max(tf*60000*12,span*factor));st.view={from:mid-next/2,to:mid+next/2};drawChart(row)}
+$('#record-list').addEventListener('click',e=>{const b=e.target.closest('[data-chart-action]');if(!b)return;const row=+b.dataset.chartRow,action=b.dataset.chartAction;
+ if(action==='in')zoomChart(row,.65);
+ else if(action==='out')zoomChart(row,1.5);
+ else if(action==='reset')refreshChart(row,true);
+ else if(action==='expand'){const shell=b.closest('.record').querySelector('.chart-shell');shell.classList.toggle('chart-expanded');b.textContent=shell.classList.contains('chart-expanded')?'收起大图':'大图';drawChart(row)}
+});
+
+
+// V8: always-available symbol directory, grouped when a ticker has multiple mentions.
+function closeSymbols(){document.body.classList.remove('symbols-open');$('#symbol-sidebar').classList.remove('is-open');$('#symbol-backdrop').classList.remove('is-open');$('#nav-symbols').setAttribute('aria-expanded','false')}
+function openSymbols(){document.body.classList.add('symbols-open');$('#symbol-sidebar').classList.add('is-open');$('#symbol-backdrop').classList.add('is-open');$('#nav-symbols').setAttribute('aria-expanded','true');$('#symbol-search').focus()}
+$('#nav-symbols').addEventListener('click',()=>document.body.classList.contains('symbols-open')?closeSymbols():openSymbols());
+$('#symbol-close').addEventListener('click',closeSymbols);
+$('#symbol-backdrop').addEventListener('click',closeSymbols);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSymbols()});
+function renderSymbols(){
+ const grouped=new Map();
+ for(const r of [...DATA].sort((a,b)=>b.published.localeCompare(a.published))){
+  const key=(r.symbol||r.label||'未标注标的').trim().toUpperCase();
+  if(!grouped.has(key))grouped.set(key,[]);
+  grouped.get(key).push(r);
+ }
+ const groups=[...grouped.entries()];
+ $('#symbol-count').textContent=`${groups.length}个标的 · ${DATA.length}条发言`;
+ $('#symbol-list').innerHTML=groups.map(([sym,rows],i)=>{
+  const latest=rows[0],multi=rows.length>1,weekly=returns(latest,'168h');
+  return `<div class="symbol-group" data-symbol-key="${escapeHtml((sym+' '+rows.map(x=>x.id+' '+x.published+' '+x.label).join(' ')).toLowerCase())}" data-toprow="${latest.row}">
+    <div class="symbol-entry"><button type="button" class="symbol-go" data-symbol-row="${latest.row}" aria-label="查看${escapeHtml(sym)}最新一条策略"><span class="sym-name">${escapeHtml(sym.replace(/USDT$/,''))}</span><span class="sym-meta">${escapeHtml(tstr(latest.published))} · #${escapeHtml(latest.id)}</span>${valid(weekly)?`<span class="sym-bad ${weekly>=0?'up':'down'}">7天 ${rawPct(weekly)}</span>`:''}</button>
+    ${multi?`<button type="button" class="symbol-toggle" data-expand="${i}" aria-expanded="false" aria-label="展开${escapeHtml(sym)}的${rows.length}条策略">${rows.length} ▾</button>`:''}</div>
+    ${multi?`<div class="symbol-sublist" data-children="${i}" hidden>${rows.map(r=>`<a href="#record-${r.row}" data-symbol-row="${r.row}"><span>${escapeHtml(tstr(r.published))}</span><span>#${escapeHtml(r.id)}</span></a>`).join('')}</div>`:''}
+   </div>`;
+ }).join('');
+ filterSymbols();
+}
+function filterSymbols(){
+ const q=$('#symbol-search').value.trim().toLowerCase();let total=0;
+ for(const el of document.querySelectorAll('.symbol-group')){const ok=el.dataset.symbolKey.includes(q);el.hidden=!ok;if(ok)total++}
+ if(!total&&!$('#symbol-list .symbol-loading').length){
+  const old=$('#symbol-empty');if(!old)$('#symbol-list').insertAdjacentHTML('beforeend','<div id="symbol-empty" class="symbol-loading">没有匹配的标的或策略编号</div>');
+ }else document.getElementById('symbol-empty')?.remove();
+}
+$('#symbol-search').addEventListener('input',filterSymbols);
+$('#symbol-list').addEventListener('click',e=>{
+ const toggle=e.target.closest('[data-expand]');
+ if(toggle){const child=$(`[data-children="${toggle.dataset.expand}"]`);child.hidden=!child.hidden;toggle.setAttribute('aria-expanded',String(!child.hidden));toggle.textContent=toggle.textContent.replace(/[▴▾]/g,child.hidden?'▾':'▴');return}
+ const link=e.target.closest('[data-symbol-row]');if(!link)return;
+ e.preventDefault();
+ document.querySelectorAll('.symbol-group.is-selected').forEach(g=>g.classList.remove('is-selected'));
+ link.closest('.symbol-group').classList.add('is-selected');
+ closeSymbols();jump(link.dataset.symbolRow);
+});
+function visitHash(){const m=decodeURIComponent(location.hash).match(/^#record-(\d+)$/);if(m&&DATA.length)jump(m[1],false)}
+window.addEventListener('hashchange',visitHash);
+if(location.hash==='#comments')location.replace('comments.html');
+
+function setScope(next){
+ if(next!=='all'&&next!=='direct')return;
+ scope=next;
+ document.querySelectorAll('[data-scope]').forEach(btn=>{const active=btn.dataset.scope===scope;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))});
+ // Independent record filters should not silently override the global scope.
+ $('#filter').value='all';$('#search').value='';
+ dashboard();renderRecords();
+}
+$('#scope-buttons').addEventListener('click',e=>{
+ const btn=e.target.closest('[data-scope]');if(btn)setScope(btn.dataset.scope);
+});
+$('#nav-settings').addEventListener('click',()=>$('#global-settings').scrollIntoView({behavior:'smooth',block:'start'}));
+if('IntersectionObserver' in window){const sectionObserver=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}},{rootMargin:'-20% 0px -65% 0px'});document.querySelectorAll('section[id]').forEach(s=>sectionObserver.observe(s))}
+function updateGlobals(){document.querySelectorAll('[data-tf]').forEach(b=>b.classList.toggle('active',+b.dataset.tf===tf));document.querySelectorAll('[data-win]').forEach(b=>b.classList.toggle('active',+b.dataset.win===windowHours));for(const row of visibleCharts)refreshChart(row,true)}
+$('#tf-buttons').addEventListener('click',e=>{const b=e.target.closest('[data-tf]');if(b){tf=+b.dataset.tf;updateGlobals()}});
+$('#window-buttons').addEventListener('click',e=>{const b=e.target.closest('[data-win]');if(b){windowHours=+b.dataset.win;updateGlobals()}});
+for(const id of ['order','filter'])$('#'+id).addEventListener('change',()=>{
+ // The legacy direct-only dropdown also selects the global direct scope.
+ if(id==='filter'&&$('#filter').value==='direct'){setScope('direct');return}
+ renderRecords();
+});
+$('#search').addEventListener('input',renderRecords);
+fetch('data.json').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(rows=>{DATA=rows;renderDirectSpotlight();dashboard();renderRecords();renderSymbols();visitHash()}).catch(e=>{
+ $('#headline-cards').innerHTML='<div class="empty" style="grid-column:1/-1">数据文件加载失败：'+escapeHtml(e.message)+'。请先运行 build.py，再从 HTTP 静态服务或 GitHub Pages 打开 site/。</div>';
+ $('#record-list').innerHTML='<div class="empty">未加载数据，请检查 data.json 是否存在。</div>';
+});
+</script>
+</body>
+</html>

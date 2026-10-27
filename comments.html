@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090f19">
+<title>留言广场 · 金本位元帅历史策略审计</title>
+<style>
+:root{color-scheme:dark;--bg:#090f19;--surface:#121b2a;--line:#2b3d54;--text:#eaf0f8;--muted:#99adc6;--blue:#67b8ff;font-family:Inter,"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text)}.wrap{max-width:1220px;margin:0 auto;padding:0 22px 68px}header{padding:28px 0 22px;border-bottom:1px solid var(--line)}header h1{font-size:clamp(20px,2.3vw,28px);margin:0}.nav{position:sticky;top:0;z-index:15;background:#090f19f5;border-bottom:1px solid var(--line);display:flex;gap:10px;padding:12px 0}.nav a{padding:10px 18px;border-radius:8px;background:#18283c;color:#cfdef0;text-decoration:none;font-size:14px}.nav a.active{background:#284765;color:#fff;border:1px solid #5689b7}.nav a:hover{background:#28415c}.hero{padding:36px 0 22px;display:flex;justify-content:space-between;gap:18px;align-items:flex-start;border-bottom:1px solid var(--line)}.hero h2{font-size:clamp(26px,3vw,38px);margin:0 0 14px;letter-spacing:.4px}.lead{line-height:1.85;color:#b3c7dd;font-size:14px;max-width:790px;margin:0}.tag{font-size:12px;color:#9ad0ff;border:1px solid #365e80;background:#172d43;padding:8px 14px;border-radius:999px;white-space:nowrap}.public-note{margin:23px 0 20px;padding:14px 18px;border-left:3px solid #5689b7;background:#122136;border-radius:8px;color:#a9bfd5;font-size:13px;line-height:1.85}.guestbook{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:23px 26px;min-height:70vh}.guestbook h3{font-size:18px;margin:0 0 8px}.desc{font-size:12px;line-height:1.75;color:var(--muted);margin:0 0 24px}.status{padding:14px 17px;border:1px dashed #45617f;border-radius:9px;background:#17263b;font-size:13px;line-height:1.9;color:#b6cce2}.status[hidden],a[hidden]{display:none!important}.giscus-host{width:100%;margin:16px 0 0;min-height:0}.giscus-host .giscus,.giscus-host .giscus-frame{width:100%!important;max-width:100%!important}.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.links a{display:inline-block;text-decoration:none;background:#1c2e45;color:#d9e9fa;border:1px solid #3b5877;padding:10px 15px;border-radius:8px;font-size:12px}.links a:hover{border-color:#76b7e9}footer{font-size:11px;line-height:1.8;color:#8196ad;padding:25px 0}.nav a:focus-visible,.links a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media(max-width:640px){.wrap{padding:0 12px 92px}header{padding:20px 0 15px}header h1{font-size:18px}.nav{position:fixed;inset:auto 0 0;z-index:40;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:9px 7px calc(9px + env(safe-area-inset-bottom));border-top:1px solid #3d4f65;border-bottom:0;gap:4px}.nav a{display:flex;align-items:center;justify-content:center;text-align:center;padding:13px 2px;font-size:12px;min-height:44px;background:transparent}.nav a.active{background:#1e3d58}.hero{padding:25px 0 19px;display:block}.hero h2{font-size:27px}.lead{font-size:13px}.tag{display:inline-block;margin-top:15px}.guestbook{padding:16px 12px;min-height:70vh}.public-note{font-size:12px;padding:12px 13px}.links a{font-size:11px}}
+</style></head><body><div class="wrap">
+<header><h1>金本位元帅历史策略审计（自20251001）</h1></header>
+<nav class="nav" aria-label="页面导航"><a href="index.html#overview">数据总览</a><a href="comments.html" class="active" aria-current="page">留言广场</a><a href="index.html#strategies">策略分析</a><a href="index.html#records">完整数据表</a></nav>
+<section class="hero"><div><h2>留言广场</h2><p class="lead">独立的公开交流空间。欢迎核对历史策略、指出行情数据或计算口径问题，也可以围绕具体标的提出疑问。留言、回复与点赞由 GitHub Discussions 提供。</p></div><span class="tag">GitHub Discussions · Giscus</span></section>
+<p class="public-note">留言需登录 GitHub。评论与 GitHub 用户名对公众可见；请针对事实和行情展开讨论，不发布个人隐私、联系方式或未经核实的指控。</p>
+<main class="guestbook"><h3>全部留言与讨论</h3><p class="desc">这里会直接显示讨论串，不需要回到数据表底部。你可以阅读、回复其他访客，也可以发表新留言。</p><div id="comments-status" class="status" role="status">正在读取留言板配置…</div><div id="giscus-host" class="giscus-host" aria-label="留言评论列表"></div><div class="links"><a id="external" hidden href="https://github.com/Felix1994321/goldman-strategy/discussions" target="_blank" rel="noopener noreferrer">在 GitHub 打开全部讨论</a><a href="https://giscus.app/zh-CN" target="_blank" rel="noopener noreferrer">查看 Giscus 配置说明</a></div></main>
+<footer>评论由 GitHub Discussions 托管。评论代表发布者的个人观点，本站统计为历史价格观察，不代表真实成交收益。</footer>
+</div><script>
+(async function(){
+ const status=document.getElementById('comments-status'),host=document.getElementById('giscus-host'),external=document.getElementById('external');
+ try{
+  const res=await fetch('comments-config.json',{cache:'no-store'});if(!res.ok)throw Error('配置文件 HTTP '+res.status);
+  const c=await res.json();const repo=String(c.repo||'').trim(),repoId=String(c.repoId||'').trim(),cat=String(c.category||'General').trim(),catId=String(c.categoryId||'').trim();
+  if(!repo||!repoId||!catId){status.textContent='留言板尚未启用：请在 GitHub 仓库开启 Discussions、安装 Giscus，并把官方生成的 repoId 与 categoryId 填入 comments-config.json 后重新发布。';return}
+  if(!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)||!/^[A-Za-z0-9_-]+$/.test(repoId)||!/^[A-Za-z0-9_-]+$/.test(catId))throw Error('Giscus 配置格式不正确');
+  external.href='https://github.com/'+repo+'/discussions';external.hidden=false;
+  status.textContent='正在加载 GitHub 留言。若你无法访问 Giscus，可以从下方链接进入 GitHub Discussions。';
+  const loader=document.createElement('script');loader.src='https://giscus.app/client.js';loader.async=true;loader.crossOrigin='anonymous';
+  const params={repo,'repo-id':repoId,category:cat,'category-id':catId,mapping:'specific',term:'金本位元帅历史策略审计 · 站点留言板',strict:'1','reactions-enabled':'1','emit-metadata':'0','input-position':'top',theme:'dark',lang:'zh-CN',loading:'lazy'};
+  for(const [k,v] of Object.entries(params))loader.setAttribute('data-'+k,v);
+  loader.onerror=()=>{status.textContent='评论脚本加载失败。请检查浏览器能否访问 giscus.app，或点击下方链接直接进入 GitHub Discussions。'};
+  host.appendChild(loader);
+  const obs=new MutationObserver(()=>{if(host.querySelector('.giscus-frame')){status.hidden=true;obs.disconnect()}});obs.observe(host,{childList:true,subtree:true});
+ }catch(e){status.textContent='留言板配置读取失败：'+e.message}
+})();
+</script></body></html>
