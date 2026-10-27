@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090f19">
+<title>追高侠金元帅：付费进群后，我回测了85条历史策略</title>
+<meta name="description" content="85条历史策略、36条明确买入信号、一次逆势ETH做空判断。基于历史发言与固定时点行情的独立数据审计。">
+<style>
+:root{color-scheme:dark;--bg:#090f19;--panel:#121d2e;--panel2:#19273a;--line:#304258;--text:#edf3fa;--muted:#9baec4;--red:#ff6779;--green:#43d9aa;--gold:#ffc76b;--blue:#77bfff; font-family:Inter,"Noto Sans SC","Microsoft Yahei",system-ui,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 85% 510px at 50% 3%,#21334a 0%,#090f19 67%);color:var(--text)}a{color:inherit;text-decoration:none}a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.bar{position:sticky;top:0;z-index:15;background:#090f19ec;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.bar-inner{max-width:1080px;margin:auto;min-height:67px;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:800;font-size:14px;letter-spacing:.1px}.brand span{color:var(--gold)}.links{display:flex;align-items:center;gap:7px}.links a{font-size:12px;padding:9px 12px;color:#c5d4e6;border-radius:9px;background:#18263a;border:1px solid #2d425b}.links a:hover{border-color:#6b9dc7}.links a.active{background:#5d482c;color:var(--gold);border-color:#aa864b}
+.wrap{max-width:1080px;margin:auto;padding:0 22px 80px}.eyebrow{display:inline-block;margin-top:66px;color:var(--gold);font-size:12px;font-weight:760;letter-spacing:.13em}.hero{padding:0 0 30px;border-bottom:1px solid var(--line)}h1{font-size:clamp(32px,5vw,60px);line-height:1.19;letter-spacing:-.04em;margin:15px 0 22px;max-width:980px}h1 em{font-style:normal;color:var(--gold)}.deck{font-size:17px;line-height:1.8;color:#bbcadb;max-width:790px}.meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:25px;font-size:12px;color:var(--muted)}.meta span{padding:6px 10px;border:1px solid #31455d;border-radius:40px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:30px 0 18px}.kpi{border:1px solid var(--line);background:linear-gradient(145deg,#19283a,#121b2a);border-radius:14px;padding:22px 16px;min-width:0}.kpi label{display:block;font-size:12px;color:var(--muted);margin-bottom:13px}.kpi strong{display:block;font-size:clamp(27px,3vw,39px);font-weight:800;line-height:1.1;letter-spacing:-.04em}.kpi .negative{color:var(--red)}.kpi .detail{display:block;font-size:11px;margin-top:9px;color:var(--muted);line-height:1.6}
+.progress{height:8px;background:#2b443d;border-radius:12px;margin:16px 0 6px;overflow:hidden}.progress > div{width:69.44%;height:100%;background:var(--red)}.progress-note{font-size:11px;color:#aebbd1}
+.reading{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:38px;margin-top:41px;align-items:start}.prose{max-width:740px;font-size:16px;line-height:2.07;color:#d7e2ef}.prose p{margin:0 0 23px}.prose h2{font-size:clamp(23px,3vw,30px);line-height:1.4;color:#f7faff;margin:45px 0 18px;letter-spacing:-.02em}.prose h2:first-child{margin-top:0}.prose b{color:#fff}.prose strong.bad{color:var(--red)}.prose strong.good{color:var(--green)}.quote{margin:28px 0;padding:20px 24px;border-left:3px solid var(--gold);background:#1c2430;border-radius:0 10px 10px 0;color:#ffd18b;font-size:20px;font-weight:760;line-height:1.65}.hit{background:linear-gradient(90deg,#ffcf7133,transparent);border-radius:3px;padding:0 3px}.case{display:grid;grid-template-columns:78px minmax(0,1fr) 94px;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid #2b394e}.case-name{font-weight:800;font-size:17px}.case-info{color:#adbed3;font-size:13px;line-height:1.6}.case-value{color:var(--red);text-align:right;font-size:19px;font-weight:800;white-space:nowrap}.case a:hover .case-name{color:var(--gold)}.caps{font-size:12px;line-height:1.75;color:var(--muted);padding:13px 16px;background:#111d2c;border:1px solid #304258;border-radius:9px;margin:24px 0 30px}.tools{display:flex;flex-wrap:wrap;gap:10px;margin:32px 0}.action{display:inline-flex;gap:8px;align-items:center;border:1px solid #d0a052;background:linear-gradient(115deg,#785525,#43321f);padding:13px 18px;border-radius:10px;font-size:14px;font-weight:750}.action.secondary{border-color:#456181;background:#16293f}.action:hover{filter:brightness(1.12)}
+.side{position:sticky;top:91px;border:1px solid var(--line);background:#111b2a;border-radius:13px;padding:18px;display:grid;gap:8px}.side h3{margin:0 0 10px;font-size:13px;color:#e9f2ff}.side a{font-size:12px;padding:9px 10px;border-radius:8px;color:#b0c3d9}.side a:hover{background:#263953;color:#fff}.side .small{border-top:1px solid #2f4057;margin-top:9px;padding-top:14px;color:#91a5be;font-size:11px;line-height:1.7}
+footer{margin-top:54px;padding:30px 0;border-top:1px solid var(--line);font-size:12px;color:#869bb5;line-height:1.8}
+@media(max-width:900px){.reading{grid-template-columns:minmax(0,1fr)}.side{position:static;grid-row:1;display:flex;flex-wrap:wrap;align-items:center}.side h3{width:100%}.side .small{width:100%}.side a{background:#19283c}}
+@media(max-width:650px){.wrap{padding:0 15px 55px}.bar-inner{padding:10px 14px;min-height:60px}.brand{font-size:12px}.links a{font-size:11px;padding:8px}.links a.optional{display:none}.eyebrow{margin-top:36px}h1{font-size:35px}.deck{font-size:14px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.kpi{padding:18px 13px}.kpi strong{font-size:28px}.reading{margin-top:31px}.prose{font-size:15px;line-height:1.95}.prose h2{font-size:23px;margin-top:35px}.quote{font-size:18px;padding:16px 17px}.case{grid-template-columns:72px 1fr 75px;gap:7px}.case-value{font-size:16px}.case-info{font-size:11px}.case-name{font-size:15px}.meta{gap:6px}.side{gap:5px}.side a{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="bar"><nav class="bar-inner" aria-label="文章导航"><a class="brand" href="index.html">金本位元帅 <span>· 策略审计</span></a><div class="links"><a class="active" href="article.html">深度文章</a><a href="index.html#overview">数据大屏</a><a class="optional" href="index.html#records">完整K线</a><a href="comments.html">留言</a></div></nav></div>
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">独立复盘 / 历史策略审计 / 2025.10 — 2026.10</div>
+<h1>追高侠金元帅：<br><em>付费进群之后，我回测了85条策略</em></h1>
+<p class="deck">一个习惯讲流通市值、持仓量、逼空和盈亏比的交易博主。他的策略究竟怎么样？不妨把发言时间放回K线上，让历史行情自己说话。</p>
+<div class="meta"><span>原始发言 85 条</span><span>明确买入／已买 36 条</span><span>数据可查 · 非真实账户收益</span></div>
+</header>
+<section class="kpis" aria-label="核心数据">
+<div class="kpi"><label>纳入审计的历史发言</label><strong>85<span style="font-size:.45em;color:var(--muted)"> 条</span></strong><span class="detail">逐条匹配发言后的市场价格</span></div>
+<div class="kpi"><label>明确买入／已买信号</label><strong>36<span style="font-size:.45em;color:var(--muted)"> 条</span></strong><span class="detail">区分观察、条件单、明确买入</span></div>
+<div class="kpi"><label>明确买入 · 48小时下跌</label><strong class="negative">25 / 36</strong><div class="progress"><div></div></div><span class="progress-note">69.4% 下跌</span></div>
+<div class="kpi"><label>全部有效发言 · 一周后下跌</label><strong class="negative">59 / 81</strong><span class="detail">72.8% 下跌 · 未将观察视为成交</span></div>
+</section>
+<div class="reading">
+<article class="prose" aria-label="追高侠金元帅文章">
+<h2 id="why">一、年费不便宜，回测结果却有点意思</h2>
+<p>前段时间，我付费进了金元帅的策略群，本来是想看看一个讲持仓量、资金费率、真空区、流通市值和爆空逻辑的人，到底有什么拿得出手的交易方法。</p>
+<p>据我了解到的收费信息，这个群的年费报价是 <b>8000U</b>。收费本身没什么问题，真正的问题是：<b>收费越有底气，策略表现就越应该经得起检验。</b> 该收费数字来自入群者提供的信息，尚未独立核验，不应视为平台确认的官方价格。</p>
+<p>于是我把2025年10月以来整理出的85条策略发言，逐条对照币安合约历史行情，做了一个可公开核查的网页。</p>
+<p>结果是：全部85条中，有81条能取得一周后有效价格，其中 <strong class="bad">59条一周后下跌，占72.8%</strong>。单看明确买入／已买的36条，48小时后 <strong class="bad">25条下跌，占69.4%</strong>；一周后35条有有效价格，其中23条下跌。</p>
+<p>这不是实际交易收益，更不是每个人的账户盈亏。但至少说明，这些历史发言所对应的买入时点，并没有展现出与分析口吻相匹配的稳定表现。</p>
+<h2 id="long">二、几乎只做多，结果多单经常迎面挨打</h2>
+<p>把这些策略按方向分类后，更有意思：85条记录里，<b>只有1条明确归为条件做空</b>。其余主要是买入、偏多、条件买入、持仓和行情观察。说白了，这个策略群的思路高度偏多，行情一动，就开始找下一个能爆空的标的。</p>
+<p>流通市值小，想象空间大；持仓量高，可能爆空；费率负，空头燃料充足；突破均线，真空区又来了。指标当然都可以研究，但问题是，<b>讲对了市场语言，不等于买对了价格。</b></p>
+<div aria-label="典型策略案例">
+<a class="case" href="index.html#record-22"><span class="case-name">TRUTH</span><span class="case-info">谈控盘、持仓和爆空，买入观点之后24小时</span><span class="case-value">−50.91%</span></a>
+<a class="case" href="index.html#record-64"><span class="case-name">BANK</span><span class="case-info">看整数位和机动仓，发言后48小时</span><span class="case-value">−41.30%</span></a>
+<a class="case" href="index.html#record-56"><span class="case-name">GENIUS</span><span class="case-info">机构背景、隐私赛道、放量买入，48小时</span><span class="case-value">−36.14%</span></a>
+<a class="case" href="index.html#record-13"><span class="case-name">ENSO</span><span class="case-info">看好连续爆空、建议参与，48小时</span><span class="case-value">−33.06%</span></a>
+<a class="case" href="index.html#record-28"><span class="case-name">DEGO</span><span class="case-info">认为有冲2.5的潜质，一周后</span><span class="case-value">−67.19%</span></a>
+</div>
+<p class="caps">以上百分比是发言后固定时点的合约价格变化，不是实际账户收益，也不等于每笔条件单都已成交。点击案例可跳转到对应发言的审计记录。</p>
+<h2 id="latest">最近一条LA：买入建议之后，两天跌了近20%</h2>
+<p>2026年10月24日14:12，他在谈到跨所资金、韩国交易所、持仓量和所谓真空空间之后，给出了一句很直接的话：<b>“就K线形态而言，可以现在就买la，看起来0.137比较容易。”</b></p>
+<p>以这条发言时刻的市场价格为基准，LA在<strong class="bad">24小时后下跌13.20%，48小时后下跌19.36%</strong>。原话是“现在就买”，相较纯粹的观察推演，这类建议更值得拿实际价格走势检验。</p>
+<p>至于同时提到的 IRYS 以及其他标的，不能因为同一段文字里出现了相关分析，就把它们全部算作独立已成交交易。这里仅对LA这条明确买入建议作价格路径比较。</p>
+<p><a style="color:var(--blue);text-decoration:underline" href="index.html#record-86">查看LA这条发言的原文与K线 →</a></p>
+<h2 id="eth">三、难得明牌做空ETH，偏偏碰上反方向上涨</h2>
+<p>当然，也不是完全没有空头观点。<b>2026年8月13日06:32</b>，他发表了一条相对明确的ETH看空方案：判断加密市场更可能向下，认为ETH可能跌到1560—1600附近，提出激进者可在1880附近做空、1930以上止损，第一目标1800、第二目标1600，并预计第一目标可能在48小时内出现。</p>
+<p>结果呢？按这条发言的时间点计算，<strong class="bad">一周后ETH反而上涨20.03%</strong>。</p>
+<p>这并不能证明某张空单的真实亏损——价格有没有触发入场、止损有没有执行，需要交易记录。但作为有时间和价位的方向性判断，这确实是一个鲜明的反例。至于“随后两个月持续上涨”的完整叙述，需要再核对更长期K线，这里只写已验证的一周表现。</p>
+<p><a style="color:var(--blue);text-decoration:underline" href="index.html#record-65">查看8月13日ETH原文与K线 →</a></p>
+<h2 id="ratio">四、“一个顶十个”，那个“一”到底赚到了吗？</h2>
+<p>最经典的还是那句：<b>“靠盈亏比，一个顶十个。”</b></p>
+<div class="quote">一个顶十个，首先你得有那个一啊。</div>
+<p>目标价喊涨100%，不等于实际盈利100%；行情曾经浮盈70%，不代表最终兑现了70%。如果没有可核对的执行记录，纸面盈亏比和真实系统盈亏比根本不能混为一谈。</p>
+<p>比如 SAPIEN，看好韩国所催化并给出了买入条件。发言后12小时，采样价格相对发言价上涨了70.14%；然而48小时后变成下跌13.98%，一周后下跌26.79%。<b>这是曾经存在大幅上涨机会，却也存在显著回吐风险的案例。</b> 不能从回吐断定他没止盈，但也不能用盘中最大涨幅去代替真实收益。</p>
+<h2 id="community">五、群越来越安静，面对质疑更需要透明</h2>
+<p>我个人观察到的群人数，从早期六七十人变成现在三十人上下。群内的交流也不像最初那样热闹。这个变化并不能直接证明退群原因，更不能据此推算任何群友亏了多少钱。</p>
+<p>至于讨论区里经常出现的争执、拉黑与否，我更在意的是一件事：<b>如果策略经得起检验，就应该允许读者拿着原文、时间戳和K线提出质疑，而不是把质疑当成冒犯。</b></p>
+<p>尤其当收费不低时，订阅者有理由关心的应当是长期统计、真正执行的止盈止损，以及出现亏损后如何复盘，而不是一句“行情不符合预期”就翻篇。</p>
+<h2 id="conclusion">六、最后：不是不会分析，是分析不等于赚钱</h2>
+<p>我不认为金元帅从来没有看对过行情。确实存在一些很亮眼的上涨案例。但完整回测不能只展示那些拉升过的币，也不能把其余下跌一概归因为市场不好。</p>
+<p>把分析写得像华尔街研报，是一种表达能力；把入场、风险控制和退出做成可验证的正期望交易系统，则是另一种能力。</p>
+<p><span class="hit"><b>市场不会因为你的研报写得很长，就不好意思收割追涨单。</b></span></p>
+<p>这次我把历史发言、时间、价格和K线都放在网上。欢迎逐条核对，也欢迎拿出有证据的反例修正统计。比起谁嗓门大，<b>我更愿意让历史行情说话。</b></p>
+<div class="tools"><a class="action" href="index.html#overview">打开完整数据大屏 ↗</a><a class="action secondary" href="index.html#records">逐条核查85条历史策略 ↗</a><a class="action secondary" href="comments.html">去留言广场讨论 ↗</a></div>
+<div class="caps"><b>统计口径及边界</b>：按采样时刻合约价格相对发言时价格计算固定时点变化；明确买入、条件单、观察分开统计。策略发布时间后的行情不等于真实账户成交收益，也不能单独证明“喊在绝对顶部”。本篇“年费”和群内氛围描述来自个人提供的信息，尚无独立凭证；不对任何账号归属或群友具体亏损作事实认定。历史数据如有错误，欢迎提供可核查证据。</div>
+</article>
+<aside class="side" aria-label="文章目录"><h3>文章目录</h3><a href="#why">01 · 年费与整体结果</a><a href="#long">02 · 只做多的策略群</a><a href="#latest">03 · 最近LA买入</a><a href="#eth">04 · ETH条件空单</a><a href="#ratio">05 · 盈亏比一个顶十个</a><a href="#community">06 · 群聊与质疑</a><a href="#conclusion">07 · 我的结论</a><div class="small">原始发言与行情由审计网站展示。固定时点涨跌幅仅用于历史走势研究，不构成投资建议。</div></aside>
+</div>
+<footer>© 历史策略审计 · 独立数据复盘文章 · <a href="index.html" style="color:var(--blue)">返回数据大屏</a></footer>
+</div>
+</body></html>
